@@ -1,6 +1,6 @@
 package entity;
 
-public class Product {
+public class ProductEntity {
 
 	private int product_id;
 	private String product_name;

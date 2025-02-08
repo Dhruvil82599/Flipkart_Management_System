@@ -1,6 +1,6 @@
 package entity;
 
-public class Admin {
+public class AdminEntity {
 
 	private int admin_id;
 	private String admin_name;
