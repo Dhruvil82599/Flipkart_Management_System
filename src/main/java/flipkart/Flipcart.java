@@ -2,6 +2,7 @@ package flipkart;
 
 import java.util.Scanner;
 
+import dao.Login;
 import dao.Register;
 
 public class Flipcart {
@@ -19,6 +20,9 @@ public class Flipcart {
 
 		switch (choice) {
 		case 1:
+			Login.isLogin();
+			break;
+		case 2:
 			Register.customerRegister();
 		}
 	}
