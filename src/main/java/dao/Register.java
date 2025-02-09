@@ -1,42 +1,68 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
-import entity.CustomerEntity;
+import entity.Customer;
 
 public class Register {
 
-	public static void register() {
-		System.out.println("----------Register Your Self Here ----------s");
-		Scanner scanner = new Scanner(System.in);
+    public static void customerRegister() {
+        // TODO Auto-generated method stub
 
-		CustomerEntity c = new CustomerEntity();
+        Scanner sc = new Scanner(System.in);
 
-		System.out.println("Enter Customer Name");
-		String customer_name = scanner.next();
+        System.out.println("Enter your Name");
+        String name = sc.next();
 
-		System.out.println("Enter Customer Email");
-		String customer_email = scanner.next();
+        System.out.println("Enter your Email");
+        String email = sc.next();
 
-		System.out.println("Enter Customer Password");
-		String customer_password = scanner.next();
+        System.out.println("Enter your Address");
+        String address = sc.next();
 
-		System.out.println("Enter Customer Phone");
-		Long customer_phone = scanner.nextLong();
+        System.out.println("Enter your Phone");
+        Long phone = sc.nextLong();
 
-		System.out.println("Enter Customer Address");
-		String customer_address = scanner.next();
+        System.out.println("Enter your Password");
+        String password = sc.next();
 
-		c.setCustomer_name(customer_name);
-		c.setCustomer_email(customer_email);
-		c.setCustomer_address(customer_address);
-		c.setCustomer_phone(customer_phone);
-		c.setCustomer_password(customer_password);
+        Customer customer = new Customer();
 
-		Connection connectionPool = ConnectionPool.getConnectionObject();
+        customer.setCustomerName(name);
+        customer.setCustomerEmail(email);
+        customer.setCustomerAddress(address);
+        customer.setCustomerPhone(phone);
+        customer.setCustomerPassword(password);
 
-		
+        Connection connectionPool = ConnectionPool.getConnectionObject();
 
-	}
+        String insert = "insert into customer values (NEXTVAL('customer_id'),?,?,?,?,?)";
+
+        try {
+            PreparedStatement preparedStatement = connectionPool.prepareStatement(insert);
+            preparedStatement.setString(1, customer.getCustomerName());
+            preparedStatement.setString(2, customer.getCustomerEmail());
+            preparedStatement.setString(3, customer.getCustomerAddress());
+            preparedStatement.setLong(4, customer.getCustomerPhone());
+            preparedStatement.setString(5, customer.getCustomerPassword());
+
+            int i = preparedStatement.executeUpdate();
+
+            if (i > 0) {
+                System.out.println("Customer Registered Successfully");
+            } else {
+                System.out.println("Customer Registration Failed");
+            }
+
+            preparedStatement.close();
+            connectionPool.close();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
